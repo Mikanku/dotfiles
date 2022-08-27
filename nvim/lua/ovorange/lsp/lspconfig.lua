@@ -29,19 +29,18 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
-require('lspconfig')['pyright'].setup{
+
+local status_ok, lspconfig = pcall(require, "lspconfig")
+if not status_ok then
+  vim.notify("lspconfig not found")
+  return
+end
+local servers = { 'pyright', 'cssls', 'clangd', 'tsserver', 'html' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
     on_attach = on_attach,
     flags = lsp_flags,
-}
-require('lspconfig')['cssls'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['clangd'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-require('lspconfig')['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
+    capabilities = capabilities,
+  }
+end
