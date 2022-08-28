@@ -26,17 +26,17 @@ packer.startup(function(use)
   -- treesitter
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 
-  -- LSP
-  use 'neovim/nvim-lspconfig'
+  -- LSP("务必要确保顺序")
   use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
+  use { 'williamboman/mason-lspconfig.nvim', after = 'mason.nvim' }
+  use { 'neovim/nvim-lspconfig', after = 'mason-lspconfig' }
   use {
     "hrsh7th/nvim-cmp",
     requires = {
-      "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lua",  --neovim Lua API
       { "L3MON4D3/LuaSnip",
       requires = {
         "saadparwaiz1/cmp_luasnip",

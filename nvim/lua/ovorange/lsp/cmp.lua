@@ -8,6 +8,9 @@ if not status_ok then
   vim.notify('luasnip not found')
   return
 end
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
 cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
@@ -50,7 +53,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    -- { name = 'vsnip' }, -- For vsnip users.
+    { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'path' },
   }),
